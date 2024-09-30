@@ -1,0 +1,8 @@
+{
+    "cmake.configureOnOpen": false,
+    "cSpell.words": [
+        "videocam",
+        "webrtc"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
+}
