@@ -7,27 +7,21 @@ class CallerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey, width: 1),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Text(
-                  "Your info",
-                  style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
-                ),
-                Text(
-                  callerId,
-                  style: const TextStyle(fontSize: 36),
-                  textAlign: TextAlign.center,
-                )
-              ])),
-    );
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const Text(
+                "Share the number below to let others reach you!",
+                style: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+              ),
+              Text(
+                callerId,
+                style: const TextStyle(fontSize: 36),
+                textAlign: TextAlign.center,
+              )
+            ]));
   }
 }

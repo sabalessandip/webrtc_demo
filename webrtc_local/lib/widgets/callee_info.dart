@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:webrtc_demo/widgets/widgets.dart';
 
 class CalleeInfo extends StatelessWidget {
+  final bool descriptiveTitle;
   final StringCallback onCall;
 
-  const CalleeInfo({super.key, required this.onCall});
+  const CalleeInfo(
+      {super.key, required this.onCall, required this.descriptiveTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +22,13 @@ class CalleeInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Text(
-                "Callee info",
-                style: TextStyle(
-                  fontSize: 14,
+              Text(
+                '${descriptiveTitle ? "Or " : ""}Dial the number shared with you!',
+                style: const TextStyle(
+                  fontSize: 20,
                   fontStyle: FontStyle.italic,
                 ),
               ),
-              const Spacer(),
               CallDialer(onCall: onCall),
             ],
           )),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webrtc_demo/common/double_extension.dart';
 import 'package:webrtc_demo/signaling/signaling.dart';
 import 'package:webrtc_demo/webrtc/webrtc.dart';
 import 'package:webrtc_demo/widgets/widgets.dart';
@@ -21,6 +22,12 @@ class _JoinCallPageState extends State<JoinCallPage> {
     signalingChannel: widget.signaling,
   );
 
+  final DraggableScrollableController _scrollableController =
+      DraggableScrollableController();
+  final double minOverlaySize = 0.18;
+  final double maxOverlaySize = 0.9;
+  bool expanded = false;
+
   @override
   void initState() {
     super.initState();
@@ -34,22 +41,66 @@ class _JoinCallPageState extends State<JoinCallPage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'WebRTC Demo',
+            'Want to see someone?',
             textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 30),
           ),
         ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        body: Stack(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-              child: CallerInfo(callerId: widget.callerId),
+            expanded
+                ? Container()
+                : Padding(
+                    padding:
+                        const EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0),
+                    child: CallerInfo(callerId: widget.callerId),
+                  ),
+            NotificationListener<DraggableScrollableNotification>(
+              onNotification: (notification) {
+                var precisedNotificationExtent =
+                    notification.extent.toPrecision(2);
+                if (!expanded && precisedNotificationExtent >= maxOverlaySize) {
+                  setState(() {
+                    expanded = true;
+                  });
+                } else if (expanded &&
+                    precisedNotificationExtent <= minOverlaySize) {
+                  setState(() {
+                    expanded = false;
+                  });
+                }
+                return true;
+              },
+              child: DraggableScrollableSheet(
+                controller: _scrollableController,
+                initialChildSize: minOverlaySize,
+                minChildSize: minOverlaySize,
+                maxChildSize: maxOverlaySize,
+                snap: true,
+                builder: (context, scrollController) => Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
+                  ),
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    child: Column(
+                      children: [
+                        const DragIndicator(),
+                        CalleeInfo(
+                          onCall: _initiateCall,
+                          descriptiveTitle: !expanded,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
-            const SizedBox(
-              height: 10.0,
-            ),
-            Expanded(child: CalleeInfo(onCall: _initiateCall))
           ],
         ));
   }
