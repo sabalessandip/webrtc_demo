@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webrtc_demo/common/call_manager.dart';
 import 'package:webrtc_demo/common/double_extension.dart';
 import 'package:webrtc_demo/signaling/signaling.dart';
 import 'package:webrtc_demo/webrtc/webrtc.dart';
@@ -34,6 +35,7 @@ class _JoinCallPageState extends State<JoinCallPage> {
     _webrtcSession.onConnectedCall = () {
       _navigateToVideoCallPage();
     };
+    CallManager().checkRequiredPermissions();
   }
 
   @override

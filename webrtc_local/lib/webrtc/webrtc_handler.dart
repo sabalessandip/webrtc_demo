@@ -105,22 +105,25 @@ extension WebRTCHandlerPrivate on WebRTCHandler {
 
   Future<void> _setupPeerConnection() async {
     // Configuration for STUN/TURN servers
-    Map<String, dynamic> configuration = {
-      // 'iceServers': [
-      //   {'urls': []}
-      // ]
-    };
 
+    // //Local network configuration
     // Map<String, dynamic> configuration = {
-    //   'iceServers': [
-    //     {
-    //       'urls': [
-    //         'stun:stun1.l.google.com:19302',
-    //         'stun:stun2.l.google.com:19302'
-    //       ]
-    //     }
-    //   ]
+    //   // 'iceServers': [
+    //   //   {'urls': []}
+    //   // ]
     // };
+
+    // Default configuration
+    Map<String, dynamic> configuration = {
+      'iceServers': [
+        {
+          'urls': [
+            'stun:stun1.l.google.com:19302',
+            'stun:stun2.l.google.com:19302'
+          ]
+        }
+      ]
+    };
 
     _peerConnection = await createPeerConnection(configuration);
 
